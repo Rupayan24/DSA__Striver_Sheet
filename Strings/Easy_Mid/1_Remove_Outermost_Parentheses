@@ -46,7 +46,7 @@ s is a valid parentheses string.
 
 
 
-Approach - 1 - BRUTE FORCE
+Approach - 1 - BRUTE FORCE - Using Stack
 // TC - O(N) , SC - O(N) 
 
 class Solution {
@@ -81,5 +81,43 @@ public:
 
         return t;  // Printing the final resultant string t
         
+    }
+};
+
+
+
+Approach - 2 - Optimized - Using Counter Variable
+// TC - O(N) , SC - O(1) as stack is not used here, we are only using the counter variable
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string t; // This is the resultant string
+
+        long long cnt = 0; // We are going to use this counter variable to check if the prenthesis is outermost or innermost
+        // When the parenthesis is outermost counter will be 0 and when parenthesis is inner, counter will be a non-zero value
+
+        // if it is a '(' we will do cnt++, if it is a ')' then we will do cnt--
+
+        for (char ch : s) // Traversing through the whole string s
+        {
+            if(ch == '(') // checking if it is a '('
+            {
+                if(cnt != 0) // if counter is non-zero value, then it is a inner parenthesis, so we can add it to our string t
+                {
+                    t.push_back(ch); // adding the '(' to the string t
+                }
+                cnt++; // increrasing the counter at the last bcoz if cnt = 0 at the first ,then it is a outermost '(' , so we must not include it in string t at the first, but at the end of each iteration we must inc the cnt bb 1 if it is a '(' to make the next '(' a inner one
+            }
+            else // if it is a ')'
+            {
+                cnt--; // doing cnt-- first bcoz if cnt is currently +1 it means only the '(' is present and this current ch is ')' which is the outermost ')', so we are doing cnt-- to make cnt come down to zero, in this case we don't need to add it in string t
+                if(cnt != 0) // if cnt is not zero then it is a inner ')'
+                {
+                    t.push_back(ch); // so we need to add it in the resultant string t
+                }
+            }
+        }
+            return t;
     }
 };

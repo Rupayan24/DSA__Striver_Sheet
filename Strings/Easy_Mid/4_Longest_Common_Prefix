@@ -1,0 +1,80 @@
+LC - 14 
+Longest Common Prefix
+
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+ 
+
+Example 1:
+
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+Example 2:
+
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+ 
+
+Constraints:
+
+1 <= strs.length <= 200
+0 <= strs[i].length <= 200
+strs[i] consists of only lowercase English letters if it is non-empty.
+
+
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        /*
+
+        
+        Brute Force ---------
+
+        
+        TC - O(N^2)
+        string ans = ""; // We will use this ans string as the final resultant string
+        for(int i = 0; i < strs[0].size(); i++) // we are going to check each index value of strs[0], so we are giving size of strs[0]
+        {
+            for(int j = 0; j < strs.size()-1; j++) // We are going to check all the strings of strs vector
+            {
+                if(strs[j][i] != strs[j+1][i]) // if there is a mismatch in the value, directly return ans, as we donot need to check anymore prefixes
+                {
+                    return ans;
+                }
+            }
+            ans += strs[0][i]; // if there is no mismatch simply add the index value into the ans string
+        }
+
+        return ans; // using this as the default return statement 
+
+        */
+        /*
+
+        Optimized solution ---------
+
+        
+        TC - O(nlogn)
+        string ans = ""; // Initialising the string as empty, we will be adding elements into it
+        sort(strs.begin(), strs.end()); // if we check the lexocigraphically first string and last string we can easily find out the common prefix
+        int n = strs.size(); // size of array strs
+        
+        string first = strs[0]; // taking first string of strs array
+        string last = strs[n-1]; // taking last string of strs array
+        for(int i = 0; i < min(strs[0].size(), strs[n-1].size()); i++) // taking upto the string having them as the smallest
+        {
+            if(first[i] != last[i]) // if there is mismatch , return the ans immediately as upto before indexwill be stored in the ans string, and as there is a mismatch so from now on there will be no common prefix anymore
+            {
+                return ans; // as soon as the mismatch happens directly return
+            }
+            ans += first[i]; // If for both the strings, the prefix is same we will be adding that particular index value in the ans 
+        }
+
+        
+        return ans; // returning ans as the function requires a default return
+        */
+    }
+};

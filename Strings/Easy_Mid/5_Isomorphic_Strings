@@ -1,0 +1,111 @@
+LC - 205
+Isomorphic Strings
+
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+ 
+
+Example 1:
+
+Input: s = "egg", t = "add"
+
+Output: true
+
+Explanation:
+
+The strings s and t can be made identical by:
+
+Mapping 'e' to 'a'.
+Mapping 'g' to 'd'.
+Example 2:
+
+Input: s = "f11", t = "b23"
+
+Output: false
+
+Explanation:
+
+The strings s and t can not be made identical as '1' needs to be mapped to both '2' and '3'.
+
+Example 3:
+
+Input: s = "paper", t = "title"
+
+Output: true
+
+ 
+
+Constraints:
+
+1 <= s.length <= 5 * 104
+t.length == s.length
+s and t consist of any valid ascii character.
+
+
+Solution ------
+TC - O(n) -> due to traversal
+SC - O(1) -> as hashmap is used
+
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        // As this question is about ismorphic strings, so the intuition comes up about mapping both the strings
+
+        // so we can use map here -> hashmap
+        // we need two hashmaps to store values of s and t strings respectively
+        unordered_map<char, int> charS; // hashmap for string s
+        unordered_map<char, int> charT; // hashmap for string t
+
+        if(s.size() != t.size()) // if size of s != size of t, the strings can never be isomorphic
+        {
+            return false; // so straight away return false
+        }
+
+        for(int i = 0; i < s.size(); i++) // now as both strings are of same size, so we can traversal for s string size
+
+        
+        {
+            if(charS.find(s[i]) == charS.end()) // we are trying to find whether the element has been seen, each time we change the index value, so at the end if there are multiple occurences of the same char, we aregoing to set its index to the last occurence
+            {
+                charS[s[i]] = i; // setting index to the last occurence from traversal left -> right
+            }
+
+            if(charT.find(t[i]) == charT.end()) // we are trying to find whether the element has been seen, each time we change the index value, so at the end if there are multiple occurences of the same char, we aregoing to set its index to the last occurence
+            {
+                charT[t[i]] = i; // setting index to the last occurence from traversal left -> right
+            }
+        }
+
+        for(int i = 0; i < s.size(); i++)
+        {
+            // key point
+        // if two strings are isomorphic the same mapped element should be placed at the same index
+
+        // e.g :- 
+        // 0 1 2 3 4
+        // p a p e r
+        // | | | | |
+        // t i t l e
+
+        // i.e the last occurence of p and t is 2
+        //                           a and i is 1
+        //                           e and l is 3
+        //                           r and e is 4
+
+        // we can use this to check if two strings are isomorphic or not
+        // if the string is not isomorphic, the mapped element will not be at the same index
+
+            if(charS[s[i]] != charT[t[i]]) // p and t is 2 i.e same, so move to next two mapped elements, as soon as you see a mismatch in the indexes of two mapped elements,return false
+            {
+                return false;
+            }
+        }
+        return true; // if for all mapped elements the indexes are same then return true. i.e they are isomorphic strings
+        
+    }
+};

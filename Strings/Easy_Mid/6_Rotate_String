@@ -1,0 +1,86 @@
+LC - 796
+Rotate String
+
+
+Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.
+
+A shift on s consists of moving the leftmost character of s to the rightmost position.
+
+For example, if s = "abcde", then it will be "bcdea" after one shift.
+ 
+
+Example 1:
+
+Input: s = "abcde", goal = "cdeab"
+Output: true
+Example 2:
+
+Input: s = "abcde", goal = "abced"
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length, goal.length <= 100
+s and goal consist of lowercase English letters.
+
+
+
+
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        /*
+        // Brute Force - 
+        TC - O(n^2)
+        SC - O(1)
+        if(s.size() != goal.size()) // if s string size is != goal string size,we cant never get goal string from s no matter how we rotate
+        {
+            return false; // so straight away return false
+        }
+
+        for(int i = 1; i <= s.size(); i++) // now s can be rotated total s.size times 
+        // O(N)
+        // abcde can be rotated 5 times -> on the 6th time, it again becomes abcde
+        // abc -> bca -> cab -> abc -> so abc can be rotated 3 times , we have to check within this no of times if goal can be represented as s
+        {
+            rotate(s.begin(), s.begin() + 1, s.end()); // we are using stl rotate func
+            // O(N)
+            // rotate(starting index of rotated part, no of positions you want to rotate from beginning, ending index of rotated part)
+            if(s == goal) // if s  becomes goal, we can return true
+            {
+                return true;
+            }
+        }
+        return false; // else false
+
+        */
+
+        /*
+        
+        // Optimal ----- 
+        // TC - O(n)  due to searching(s.contains(goal))
+        // SC - O(n)  due to concatenation
+        if(s.size() != goal.size()) // If s and goal are not same in length, than no matter how we rotate we can't get goal string from s string
+        {
+            return false; // so simply return false in this case
+        }
+        s += s; // concatenation makes s+s, so now after the end of first s, second s will start i.e we will get a rotated kinda string in the middle of the whole concatenated string
+
+        // If goal is a rotation of s string then it must be a substring of (s + s) string
+        
+        // abcde + abcde = abcdeabcde, in this case we can see as soon as first s string ends with cde , second string comes up with ab, so here we are getting kinda rotated like string cdeab
+        // so if our goal is to find cdeab, we can check if the goal string is present in our concatenated string or not
+
+        if(s.contains(goal)) // if concatenated string contains te goal string // O(n)
+        {
+            return true; // then return true ddirectly
+        }
+
+        else
+        {
+            return false; // else return false
+        }
+        */
+    }
+};

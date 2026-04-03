@@ -1,0 +1,89 @@
+LC - 13
+roman to integer
+
+Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+I can be placed before V (5) and X (10) to make 4 and 9. 
+X can be placed before L (50) and C (100) to make 40 and 90. 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+Given a roman numeral, convert it to an integer.
+
+ 
+
+Example 1:
+
+Input: s = "III"
+Output: 3
+Explanation: III = 3.
+Example 2:
+
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+Example 3:
+
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+ 
+
+Constraints:
+
+1 <= s.length <= 15
+s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
+It is guaranteed that s is a valid roman numeral in the range [1, 3999].
+
+
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        /*
+        // TC - O(n)
+        // SC - O(1) -> as we are using uordered_map of size 7 only so it turns out to be constact space no matter how big the input size is, so SC becomes O(1)
+        int n = s.size(); // size of string
+        int result = 0; // variable for storing final result
+        unordered_map<char, int> roman = { // unordered_map for mapping char(key) with its value
+            {'I',1}, // each character is mapped with its value {key , value}
+            {'V',5},
+            {'X',10},
+            {'L',50},
+            {'C',100},
+            {'D',500},
+            {'M',1000},
+
+        };
+
+        for(int i = 0; i < n - 1; i++) // traversing through the string // we need to do n-1th index separately as s[i] < s[i+1] doesnot hold for n-1th index
+        {
+            // If the current char is greater than its next char, then there is no problem, but if the current char is less than its next char(like IV -> I is curr char and V is next char, here we have to do 5 - 1 to get 4)
+            // XIV - > X is greater than I, so we can add 10, but I is leeser than its next char V , so here we need to get 4 by subtracting something, if we see , for I chaar if we subtract its value 1 and for next index we normally add 5 , we get in total 4(-1+5 = 4)
+            if(roman[s[i]] < roman[s[i+1]]) // if curr char is lesser than its next char
+            {
+                result -= roman[s[i]]; // subtract the curr char from the result 
+            }
+            else
+            {
+                result += roman[s[i]]; // else curr char is greater than its next char, so simply add its value to the result
+            }
+        }
+
+        result += roman[s[n-1]]; // as for n-1 index we cant check with n index as nth index is not present, so we need to do n-1 case separately
+        // as no next char is present, so n-1th char is the largest, xso we need to add it to result
+        return result;
+        */
+
+    }
+};

@@ -1,0 +1,86 @@
+LC - 39
+Combination Sum
+
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+
+The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+ 
+
+Example 1:
+
+Input: candidates = [2,3,6,7], target = 7
+Output: [[2,2,3],[7]]
+Explanation:
+2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+7 is a candidate, and 7 = 7.
+These are the only two combinations.
+Example 2:
+
+Input: candidates = [2,3,5], target = 8
+Output: [[2,2,2,2],[2,3,3],[3,5]]
+Example 3:
+
+Input: candidates = [2], target = 1
+Output: []
+ 
+
+Constraints:
+
+1 <= candidates.length <= 30
+2 <= candidates[i] <= 40
+All elements of candidates are distinct.
+1 <= target <= 40
+
+
+
+
+Solution
+
+/*
+class Solution {
+public:
+    // TC - 0(2^N) // as we are doing recursive calls to try out all the possible combinations where each recursive call have two choices -> 2 * 2 * 2 ..... n times -> 2^N
+    // SC - O(N) // as we are using ans vector and ds vector
+    //Hint
+    //This is a question where we need to print all the possible combinations -> now the first think that should come into our mind, when we need to find all the combinations is Recursion
+    
+    // Moreover as the constraints are very small, so we can think of a solution having TC - O(2^N)
+    void combo(int i, vector<int> &candidates, int target, vector<int> &ds, vector<vector<int>> &ans)
+    {
+        int n = candidates.size(); // Taking n as the candidates vector size
+        if(i == n) // if the index becomes equal to the size of candidates vector -> we have used all the elements of the candidates vector, now we have no more elements to try out, so simply that will be the base case
+        {
+            if(target == 0) // if we have made target = 0 by subtracting elements in a combination, then this is one of the answers of our question, so we need to put this solution in the answer vector
+            {
+                ans.push_back(ds); // putting the combination in ans vector
+            }
+            return; // then return to check other combos 
+        }
+
+        // Now for each recursive call, we have two choices -> either to pick the current element or not to pick the current element
+        // Pick
+
+        if(candidates[i] <= target) // if by picking the current element, our ans becomes less than target, there is no use of going further with this combo, as using this combo if we go on, we will keep getting lesser value than target -> so this is a check -> so if the current element is less than target then only we goona check this combo
+        {
+            ds.push_back(candidates[i]); // at first push thre current element into the ds vector 
+            combo(i, candidates, target - candidates[i], ds, ans); // here we have done the pick -> current element call, here we are doing target - current element to reduce target value for next recursive call -> now this call will have again two choices -> pick current element or move to the next element
+            ds.pop_back(); // at the end make sure you remove the current element from the ds vector -> so that we can execute the non - pick recursive call where the current element will not be there
+        }
+        // Non - Pick
+
+
+        combo(i+1, candidates, target, ds, ans); // doing the non - ick call where the current element is not present and we directly move to the next element
+    }
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans; // 2-D vector for returning the final answer
+        vector<int> ds; // vector for styoring each combination
+        combo(0, candidates, target, ds, ans); // calling the function
+
+        return ans; // returning the final answer
+    }
+};
+*/

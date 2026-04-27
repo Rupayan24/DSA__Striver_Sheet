@@ -67,3 +67,45 @@ public:
         return res; // after all permuytations is stored in res -> we need to return res
     }
 };
+
+
+
+
+
+Approach - 2
+Using swap function
+
+
+class Solution {
+    // Approach - 2 
+    // For first approach, we were using a map to store each element picking status, but that consumes extra space -> so to not use that extra space, we can use swap function to interchange betwwen elements 
+    // Moreover even the extra space used by the ds vector is also removed
+public:
+    void combo(int i, vector<int> &nums, vector<vector<int>> & res)
+    {
+        int n = nums.size();
+        if(i == n) // when the pointer reaches n, we know we have reached the size of the array and a permutation is gotten -> so simply add this permutation(which is stored in nums) into ans and return
+        {
+            res.push_back(nums);
+            return;
+        }
+
+        for(int index = i; index < n; index++) // Oth level has n choices -> 1st level has (n-1) choices and so on
+        {
+            swap(nums[i], nums[index]); // swap the current index with all the indexes possible -> Oth index is swapped with a[0], a[1], a[2] ..... a[n-1]
+            // ds.push_back(nums[i]); -> we can directly do the ans.push(nums) as nums directly encounters swaps, so at last when ds.size() == n, then nums becomes once of the permutations
+            combo(i+1, nums, res); // call for next level recursive call
+            swap(nums[i], nums[index]); // backtrack -> again bring the nums vector to its original form for current level so that next swap (with new index) can be done
+            // ds.pop_back(); -> not needed
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res; // vector to return all the permutations
+        
+
+        combo(0, nums, res); // recursive call
+        return res;
+        
+    }
+};

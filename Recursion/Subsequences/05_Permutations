@@ -78,6 +78,8 @@ Using swap function
 
 class Solution {
     // Approach - 2 
+    // TC - O(N! * N) -> all the permutations and a loop of N is used
+    // SC - O(N) -> array size (auxilliary space) -> size of each permuation
     // For first approach, we were using a map to store each element picking status, but that consumes extra space -> so to not use that extra space, we can use swap function to interchange betwwen elements 
     // Moreover even the extra space used by the ds vector is also removed
 public:

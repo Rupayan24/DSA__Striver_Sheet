@@ -1,0 +1,60 @@
+LC - 78
+Subsets
+
+Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 10
+-10 <= nums[i] <= 10
+All the numbers of nums are unique.
+
+
+Solution
+
+
+
+class Solution {
+public:
+// TC - O(2^N * K) -> K is the tc for each ans.push(ds)
+// SC - O(N) -> N is the max size reached on one call for ds -> but if we consider the output array size too, then SC is O(N * 2^N)
+// As the array has only unique elements, so we donot have to think of duplicate elements. As there is no duplicate element, so there is no possibility of having duplicate subset.
+    void combo(int i, vector<int> &nums, vector<int> &ds, vector<vector<int>> &ans)
+    {
+        int n = nums.size();
+
+        if(i == n) // if the interator reaches n i.e size of the nums vector, -> this is a possible solutuion as no more iteration needs to be done
+        {
+            ans.push_back(ds); // so push ds into ans
+            return; // and return
+        }
+
+        ds.push_back(nums[i]); // pick
+        combo(i+1, nums, ds, ans); // next call for pick
+        ds.pop_back(); // not - pick
+        combo(i+1, nums, ds, ans); // next call for not - pick
+    }
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans; // vector of vector to store all the subset combinations
+        vector<int> ds; // vector to store each ds
+
+        combo(0, nums, ds, ans); // recursive call
+
+        return ans; // for returning the final ans
+    }
+};

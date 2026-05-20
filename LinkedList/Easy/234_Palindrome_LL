@@ -1,0 +1,123 @@
+Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+
+ 
+
+Example 1:
+
+
+Input: head = [1,2,2,1]
+Output: true
+Example 2:
+
+
+Input: head = [1,2]
+Output: false
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [1, 105].
+0 <= Node.val <= 9
+ 
+
+Follow up: Could you do it in O(n) time and O(1) space?
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        /*Apporach - 1 --> using vector -> two pointers 
+        // TC - O(N)
+        // SC - O(N) --> as using vector
+        vector<int> ans;
+
+        ListNode* temp = head;
+
+        while(temp != NULL)
+        {
+            ans.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        int i = 0;
+        int j = ans.size() - 1;
+
+        while(i <= j)
+        {
+            if(ans[i] != ans[j])
+            {
+                return false;
+            }
+
+            i++;
+            j--;
+        }
+
+        return true;
+        */
+
+        /*
+        //Approach - 2 -> using reverse of LL & two pointers
+        // TC - O(N)
+        // SC - O(1)
+
+        int size = 0;
+        ListNode* temp = head;
+
+        while(temp != NULL)
+        {
+            size++;
+            temp = temp->next;
+        }
+
+        int mid = size / 2;
+
+        ListNode* rv = head;
+
+        int m_mid = 0;
+        while(m_mid != mid)
+        {
+            rv = rv->next;
+            m_mid++;
+        }
+
+        ListNode* curr = rv;
+        ListNode* prev = NULL;
+
+        while(curr != NULL)
+        {
+            ListNode* nextNode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        ListNode* left = head;
+        ListNode* right = prev;
+
+        while(mid)
+        {
+            if(left->val != right->val)
+            {
+                return false;
+            }
+            left = left->next;
+            right = right->next;
+            mid--;   
+        }
+
+        return true;
+    }
+};

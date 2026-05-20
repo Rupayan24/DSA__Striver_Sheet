@@ -1,0 +1,136 @@
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+ 
+
+Example 1:
+
+
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+Example 2:
+
+
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+Example 3:
+
+Input: head = []
+Output: []
+ 
+
+Constraints:
+
+The number of nodes in the list is in the range [0, 5 * 104].
+-105 <= Node.val <= 105
+ 
+
+Follow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e. constant space)?
+
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        /*
+        // Brute Force - Sort in avector then add them back into the list
+        // TC - O(nlogn) using inbuilt sort after taling into a vector 
+        // SC - O(n) as we are using a vector to sort
+        vector<int> ans;
+        ListNode* temp = head;
+
+        while(temp != NULL)
+        {
+            ans.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        sort(ans.begin(), ans.end());
+
+        ListNode* curr = head;
+
+        int i = 0;
+        while(curr != NULL)
+        {
+            curr->val = ans[i];
+            i++;
+            curr = curr->next;
+        }
+
+        return head;
+        */
+
+        // Optimal -> using merge sort
+        // TC - O(nlogn)
+        // SC - O(1) // as we are directly doing inplace LL replacements
+        if(head == NULL || head->next == NULL) return head;
+
+        ListNode* temp = NULL;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL && fast->next != NULL)
+        {
+            temp = slow; // temp will be used to cut the middle Link at the btw temp and slow to divide the LL into two small LL
+            slow = slow->next; // slow moves by 1 step
+            fast = fast->next->next; // fast moves by 2 steps
+        }
+
+        temp->next = NULL;
+
+        ListNode* l1 = sortList(head);
+        ListNode* l2 = sortList(slow);
+
+        return mergeList(l1, l2);
+    }
+
+    // MergeList func
+    ListNode* mergeList(ListNode* l1, ListNode* l2)
+    {
+        ListNode* ptr = new ListNode(0);
+        ListNode* curr = ptr;
+
+        // Still both l1 and l2 are not null, we need to compare and add the smaller value
+        while(l1 != NULL && l2 != NULL)
+        {
+            if(l1->val <= l2->val)
+            {
+                curr->next = l1;
+                l1 = l1->next;
+            }
+
+            else
+            {
+                curr->next = l2;
+                l2 = l2->next;
+            }
+
+            curr = curr->next;
+        }
+        // Now after that while either l1 != NULL or l2 != NULL,  only one will be true, so we just need to add its value
+        if(l1 != NULL)
+        {
+            curr->next = l1;
+            l1 = l1->next;
+        }
+
+        if(l2 != NULL)
+        {
+            curr->next = l2;
+            l2 = l2->next;
+        }
+
+        return ptr->next; // as we are doing  new ListNode(0), so a 0 will be at first of every merge list as head,  so we need to return ptr->next, so that we dont include that 0 in our final mergeList for each merge 
+    }
+};

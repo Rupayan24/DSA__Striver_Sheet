@@ -1,0 +1,115 @@
+Given an array of integers arr, find the sum of min(b), where b ranges over every (contiguous) subarray of arr. Since the answer may be large, return the answer modulo 109 + 7.
+
+ 
+
+Example 1:
+
+Input: arr = [3,1,2,4]
+Output: 17
+Explanation: 
+Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4]. 
+Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.
+Sum is 17.
+Example 2:
+
+Input: arr = [11,81,94,43,3]
+Output: 444
+ 
+
+Constraints:
+
+1 <= arr.length <= 3 * 104
+1 <= arr[i] <= 3 * 104
+
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        /*
+        // Brute Force --> TLE --> so donot run
+        // TC - O(N^2)
+        // SC - O(1)
+        long long n = arr.size();
+
+        long long sum = 0;
+        for(long long i = 0; i < n; i++)
+        {
+            long long mini = arr[i];
+            for(long long j = i; j < n; j++)
+            {
+                mini = min(mini, (long long)arr[j]);
+                sum += mini;
+            }
+        }
+
+        long long mod = 1e9 + 7;
+        sum = sum % mod;
+        return sum;
+        */
+
+
+        // Approach - 2 ---> Optimal Solution Using Stack & Next Greater Element concept
+
+
+        // TC - O(N)
+        // SC - O(N)
+        int n = arr.size();
+
+        //For finding previous smallest or equal to element on left side for each index
+        vector<long long> left(n);
+        stack<long long> s1;
+
+        for(long long i = 0; i < n; i++)
+        {
+            while(!s1.empty() && arr[s1.top()] > arr[i]) // to find smaller as well as equal element on left side
+            {
+                s1.pop();
+            }
+            if(s1.empty())
+            {
+                left[i] = -1;
+            }
+            else
+            {
+                left[i] = s1.top();
+            }
+            s1.push(i);
+        }
+
+
+        // For finding next smallest element on the right of the index
+        vector<long long> right(n);
+        stack<long long> s2;
+        for(long long i = n-1; i >= 0; i--)
+        {
+            while(!s2.empty() && arr[s2.top()] >= arr[i])
+            {
+                s2.pop();
+            }
+
+            if(s2.empty())
+            {
+                right[i] = n;
+            }
+
+            else
+            {
+                right[i] = s2.top();
+            }
+
+            s2.push(i);
+        }
+        long long total = 0;
+        long long mod = 1e9 + 7;
+
+        for(long long i = 0; i < n; i++)
+        {
+            long long prod = ((left[i] - i) * (i - right[i])) % mod;
+            long long contribution = (arr[i] * prod) % mod;
+            total += contribution;
+            total = total % mod;
+        }
+
+        return total;
+    }
+};

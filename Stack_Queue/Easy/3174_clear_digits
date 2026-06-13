@@ -1,0 +1,92 @@
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        int n = students.size();
+        queue<int> q_student;
+        queue<int> q_sand;
+        int count = 0;
+
+        for(int i = 0; i < n; i++)
+        {
+            q_student.push(students[i]);
+            q_sand.push(sandwiches[i]);
+        }
+
+        while(count < q_student.size())
+        {
+            if(q_student.front() == q_sand.front())
+            {
+                count = 0;
+                q_student.pop();
+                q_sand.pop();
+            }
+
+            else
+            {
+                count++;
+                q_student.push(q_student.front());
+                q_student.pop();
+            }
+
+
+        }
+
+        int a = q_student.size();
+
+        return a;
+    }
+};
+
+
+
+class Solution {
+public:
+    string clearDigits(string s) {
+        /*
+       int n = s.size();
+       stack<char> st;
+       for(int i = 0; i < n; i++) 
+       {
+        if(isdigit(s[i]) && !st.empty())
+        {
+            st.pop();
+        }
+
+        else
+        {
+            st.push(s[i]);
+        }
+       }
+
+       string res = "";
+       while(!st.empty())
+       {
+        res += st.top();
+        st.pop();
+       }
+
+       reverse(res.begin(), res.end());
+       return res;
+       */
+
+       // TC - O(N)
+       // SC - O(N)
+
+       int n = s.size();
+       string res = "";
+       for(int i = 0; i < n; i++)
+       {
+        if(isdigit(s[i]))
+        {
+            res.pop_back();
+        }
+
+        else
+        {
+            res += s[i];
+        }
+       }
+
+       return res;
+    }
+};

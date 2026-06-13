@@ -1,0 +1,73 @@
+A valid parentheses string is either empty "", "(" + A + ")", or A + B, where A and B are valid parentheses strings, and + represents string concatenation.
+
+For example, "", "()", "(())()", and "(()(()))" are all valid parentheses strings.
+A valid parentheses string s is primitive if it is nonempty, and there does not exist a way to split it into s = A + B, with A and B nonempty valid parentheses strings.
+
+Given a valid parentheses string s, consider its primitive decomposition: s = P1 + P2 + ... + Pk, where Pi are primitive valid parentheses strings.
+
+Return s after removing the outermost parentheses of every primitive string in the primitive decomposition of s.
+
+ 
+
+Example 1:
+
+Input: s = "(()())(())"
+Output: "()()()"
+Explanation: 
+The input string is "(()())(())", with primitive decomposition "(()())" + "(())".
+After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
+Example 2:
+
+Input: s = "(()())(())(()(()))"
+Output: "()()()()(())"
+Explanation: 
+The input string is "(()())(())(()(()))", with primitive decomposition "(()())" + "(())" + "(()(()))".
+After removing outer parentheses of each part, this is "()()" + "()" + "()(())" = "()()()()(())".
+Example 3:
+
+Input: s = "()()"
+Output: ""
+Explanation: 
+The input string is "()()", with primitive decomposition "()" + "()".
+After removing outer parentheses of each part, this is "" + "" = "".
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s[i] is either '(' or ')'.
+s is a valid parentheses string.
+
+
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string t; // This is the resultant string
+
+        long long cnt = 0; // We are going to use this counter variable to check if the prenthesis is outermost or innermost
+        // When the parenthesis is outermost counter will be 0 and when parenthesis is inner, counter will be a non-zero value
+
+        // if it is a '(' we will do cnt++, if it is a ')' then we will do cnt--
+
+        for (char ch : s) // Traversing through the whole string s
+        {
+            if(ch == '(') // checking if it is a '('
+            {
+                if(cnt != 0) // if counter is non-zero value, then it is a inner parenthesis, so we can add it to our string t
+                {
+                    t.push_back(ch); // adding the '(' to the string t
+                }
+                cnt++; // increrasing the counter at the last bcoz if cnt = 0 at the first ,then it is a outermost '(' , so we must not include it in string t at the first, but at the end of each iteration we must inc the cnt bb 1 if it is a '(' to make the next '(' a inner one
+            }
+            else // if it is a ')'
+            {
+                cnt--; // doing cnt-- first bcoz if cnt is currently +1 it means only the '(' is present and this current ch is ')' which is the outermost ')', so we are doing cnt-- to make cnt come down to zero, in this case we don't need to add it in string t
+                if(cnt != 0) // if cnt is not zero then it is a inner ')'
+                {
+                    t.push_back(ch); // so we need to add it in the resultant string t
+                }
+            }
+        }
+            return t;
+    }
+};

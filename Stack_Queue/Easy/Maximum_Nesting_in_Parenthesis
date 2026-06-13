@@ -1,0 +1,101 @@
+Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.
+
+ 
+
+Example 1:
+
+Input: s = "(1+(2*3)+((8)/4))+1"
+
+Output: 3
+
+Explanation:
+
+Digit 8 is inside of 3 nested parentheses in the string.
+
+Example 2:
+
+Input: s = "(1)+((2))+(((3)))"
+
+Output: 3
+
+Explanation:
+
+Digit 3 is inside of 3 nested parentheses in the string.
+
+Example 3:
+
+Input: s = "()(())((()()))"
+
+Output: 3
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of digits 0-9 and characters '+', '-', '*', '/', '(', and ')'.
+It is guaranteed that parentheses expression s is a VPS.
+
+
+class Solution {
+public:
+    int maxDepth(string s) {
+
+        /*
+        Whenever you are solving a problem which has parenthesis, think of stack
+        // Brute Force - Extra Space used(stack)
+        // TC - O(n)
+        // SC - O(n)
+        int n = s.size(); // size of s
+        stack<char> pp; // stack to store '('
+        int max_count = 0; // to store the maximum no. of '(' present in the stack at a moment
+
+        for(int i = 0; i < n; i++) // traversing through the string
+        {
+            if(s[i] == '(') // if '(' is found
+            {
+                pp.push(s[i]); // push the '(' into the stack
+                int sized = pp.size(); // calculate the size of the stack // pp.isze() -> returns datatype size_t, so we need to convert in into int here
+                max_count = max(max_count, sized); // if this is the maximum size of the stack, put the size into max_count
+            }
+
+            else if(s[i] == ')') // if it is ')'
+            {
+                pp.pop(); // pop the topmost '(' from the stack
+            }
+        }
+
+
+        return max_count; // return the maximum count 
+
+        */
+
+        
+        /*
+        // Optimised Solution
+        // TC - O(n)
+        // SC - O(1) // as no extra space is used
+        int n = s.size(); // size of s
+        int count = 0; // variable for storing count of '(' 
+        int max_count = 0; // variable for storing max count of '('
+
+        for(int i = 0; i < n; i++) // traversing through the string // n
+        {
+            if(s[i] == '(') // if '(' is found 
+            {
+                count++; // increment count
+                max_count = max(max_count, count); //if this is the maximum value of count then put count value in place of max_count
+            }
+
+            else if(s[i] == ')') // if ')' is found 
+            {
+                count--; // we need to decrement count
+            }
+        }
+
+        return max_count; // finally, return the max_count
+        */
+        
+        
+    }
+};

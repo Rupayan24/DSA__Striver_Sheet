@@ -1,0 +1,149 @@
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+Implement the MinStack class:
+
+MinStack() initializes the stack object.
+void push(int value) pushes the element value onto the stack.
+void pop() removes the element on the top of the stack.
+int top() gets the top element of the stack.
+int getMin() retrieves the minimum element in the stack.
+You must implement a solution with O(1) time complexity for each function.
+
+ 
+
+Example 1:
+
+Input
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+Output
+[null,null,null,null,-3,null,0,-2]
+
+Explanation
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // return -3
+minStack.pop();
+minStack.top();    // return 0
+minStack.getMin(); // return -2
+ 
+
+Constraints:
+
+-231 <= val <= 231 - 1
+Methods pop, top and getMin operations will always be called on non-empty stacks.
+At most 3 * 104 calls will be made to push, pop, top, and getMin.
+
+
+/*
+class MinStack {
+public:
+    // Approach - 1    --->2 separate vector -> one stroing elemetns , another storing min value at that index
+    vector<int> v; 
+    vector<int> mini_v;
+    MinStack() {
+       
+    }
+    
+    void push(int val) {
+        v.push_back(val);
+
+        if(!mini_v.size()) mini_v.push_back(val);
+        else mini_v.push_back(min(val, mini_v.back()));
+    }
+    
+    void pop() {
+        v.pop_back();
+        mini_v.pop_back();
+    }
+    
+    int top() {
+        return v.back();
+    }
+    
+    int getMin() {
+        return mini_v.back();
+    }
+};
+*/
+
+
+
+/*
+
+// Approach - 2 ---> using vector + pair (next approach stack is used in place of stack)
+class MinStack {
+public:
+vector<pair<int,int>> v;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if(!v.size()) v.push_back({val, val}); // if v is empty, here v.back() doesnot work as no v.back is present
+        else
+        {
+            int mini = min(val, v.back().second);
+            v.push_back({val, mini});
+        }
+    }
+    
+    void pop() {
+        v.pop_back();
+    }
+    
+    int top() {
+        return v.back().first;
+    }
+    
+    int getMin() {
+        return v.back().second;
+    }
+};
+
+*/
+
+// Approach - using stack + pair --> better
+// TC - O(1)
+// SC - O(N) // as stack is used
+class MinStack {
+public:
+stack<pair<int, int>> s;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if(s.empty()) s.push({val, val});
+        else
+        {
+            s.push({val, min(val, s.top().second)});
+        }
+    }
+    
+    void pop() {
+        s.pop();
+    }
+    
+    int top() {
+        return s.top().first;
+    }
+    
+    int getMin() {
+        return s.top().second;
+    }
+};
+
+// optimal left in striver
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
